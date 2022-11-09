@@ -5,7 +5,7 @@
 #
 # See https://www.spigotmc.org/wiki/plugin-yml/ for more information.
 # 
-name: ${project.name} 
+name: ${project.name}
 version: ${project.version}
 main: ${main.class}
 author: ${author}
@@ -14,17 +14,25 @@ author: ${author}
 api-version: 1.13
 
 # Load the following libraries
-libraries: 
+libraries:
   # DO NOT EDIT THE FIRST LIBRARY, required to make your plugin work under Java 15+
   - org.openjdk.nashorn:nashorn-core:15.4
+  - com.zaxxer:HikariCP:4.0.3
+  - org.mariadb.jdbc:mariadb-java-client:3.0.3
+  - mysql:mysql-connector-java:8.0.28
+  - org.xerial:sqlite-jdbc:3.36.0.3
   #- org.jsoup:jsoup:1.14.3
-  #- com.zaxxer:HikariCP:5.0.1  
-
+  #- com.zaxxer:HikariCP:5.0.1
+legacy-libraries:
+  - com.zaxxer:HikariCP:4.0.3
+  - org.mariadb.jdbc:mariadb-java-client:3.0.3
+  - mysql:mysql-connector-java:8.0.28
+  - org.xerial:sqlite-jdbc:3.36.0.3
 # Same as libraries, but only works on Minecraft <1.16 using our own special method.
 #legacy-libraries:
 
 # Plugins that we support so that we are loaded after them for your convenience.
-softdepend: [AuthMe, BanManager, BungeeChatAPI, CMI, DiscordSRV, Factions, Feudal, ItemsAdder, Essentials, LegacyFactions, Lands, LuckPerms, Multiverse-Core, MVdWPlaceholderAPI, MythicMobs, mcMMO, Nicky, PlaceholderAPI, ProtocolLib, SimpleClans, Towny, TownyChat, Vault, WorldEdit]
+softdepend: [ AuthMe, BanManager, BungeeChatAPI, CMI, DiscordSRV, Factions, Feudal, ItemsAdder, Essentials, LegacyFactions, Lands, LuckPerms, Multiverse-Core, MVdWPlaceholderAPI, MythicMobs, mcMMO, Nicky, PlaceholderAPI, ProtocolLib, SimpleClans, Towny, TownyChat, Vault, WorldEdit ]
 
 #
 # The commands are built at runtime so you can change them easily within the settings.

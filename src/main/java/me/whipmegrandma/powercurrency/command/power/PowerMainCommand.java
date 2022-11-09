@@ -5,14 +5,15 @@ import org.mineacademy.fo.command.ReloadCommand;
 import org.mineacademy.fo.command.SimpleCommandGroup;
 
 @AutoRegister
-public final class power extends SimpleCommandGroup {
+public final class PowerMainCommand extends SimpleCommandGroup {
 
-	public power() {
+	public PowerMainCommand() {
 		super("power|p");
 	}
 
 	@Override
 	protected void registerSubcommands() {
 		this.registerSubcommand(new ReloadCommand());
+		this.registerSubcommand(new PowerBalSubCommand(this));
 	}
 }
