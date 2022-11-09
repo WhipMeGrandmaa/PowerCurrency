@@ -10,13 +10,13 @@ import org.mineacademy.fo.command.SimpleSubCommand;
 
 import java.util.List;
 
-public final class PowerSetSubCommand extends SimpleSubCommand {
+public final class PowerGiveSubCommand extends SimpleSubCommand {
 
-	public PowerSetSubCommand(SimpleCommandGroup parent) {
-		super(parent, "set");
+	public PowerGiveSubCommand(SimpleCommandGroup parent) {
+		super(parent, "give");
 
 		this.setUsage("<username> <power>");
-		this.setPermission("power.command.set");
+		this.setPermission("power.command.give");
 		this.setMinArguments(2);
 	}
 
@@ -37,23 +37,25 @@ public final class PowerSetSubCommand extends SimpleSubCommand {
 			}
 
 			String name = data.getKey();
+			int balance = data.getValue();
+
+			PowerDatabase.getInstance().setCache(param, data.getValue() + power);
+
 			Player receiver = Bukkit.getPlayerExact(param);
 
 			if (receiver == null) {
-				Common.tell(sender, "The power of " + name + " has been set to " + power + ".");
-				PowerDatabase.getInstance().setCache(param, power);
+				Common.tell(sender, power + " power has been given to " + name + ".");
 
 				return;
 			}
 
 			if (!receiver.equals(getPlayer())) {
-				Common.tell(sender, "The power of " + name + " has been set to " + power + ".");
-				Common.tell(receiver, "Your power has been set to " + power + ".");
+				Common.tell(sender, power + " power has been given to " + name + ".");
+				Common.tell(receiver, power + " power has been given to you.");
 			} else
-				Common.tell(sender, "Your power has been set to " + power + ".");
+				Common.tell(sender, power + " power has been given to you.");
 
-			PowerManager.setPower(receiver, power);
-
+			PowerManager.setPower(receiver, data.getValue() + power);
 		});
 
 	}

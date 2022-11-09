@@ -43,6 +43,7 @@ public final class PowerDatabase extends SimpleDatabase {
 
 				if (!resultSet.next()) {
 					Common.runLater(() -> callThisOnLoad.accept(0));
+					this.saveNewPlayerCache(player);
 
 					return;
 				}
@@ -77,6 +78,24 @@ public final class PowerDatabase extends SimpleDatabase {
 				Common.error(t, "Unable to save power for " + player.getName());
 			}
 		});
+	}
+
+	public void saveNewPlayerCache(Player player) {
+
+		try {
+			SerializedMap map = SerializedMap.ofArray(
+					"UUID", player.getUniqueId(),
+					"Name", player.getName(),
+					"Power", 0);
+
+			String columns = Common.join(map.keySet());
+			String values = Common.join(map.values(), ", ", value -> value == null || value.equals("NULL") ? "NULL" : "'" + value + "'");
+
+			this.update("INSERT OR REPLACE INTO {table} (" + columns + ") VALUES (" + values + ");");
+
+		} catch (Throwable t) {
+			Common.error(t, "Unable to save data for newly joined player " + player.getName());
+		}
 	}
 
 	public void pollCache(String playerName, Consumer<Tuple<String, Integer>> callThisOnLoad) {
@@ -123,10 +142,23 @@ public final class PowerDatabase extends SimpleDatabase {
 				});
 
 				Common.runLater(() -> callThisOnLoad.accept(map));
-				map.clear();
-
+				
 			} catch (Throwable t) {
 				Common.error(t, "Unable to load all data.");
+			}
+		});
+	}
+
+	public void setCache(String name, int power) {
+		this.checkLoadedAndSync();
+
+		Common.runLaterAsync(() -> {
+
+			try {
+				this.update("UPDATE {table} set Power = '" + power + "' WHERE Name = '" + name + "' COLLATE NOCASE");
+
+			} catch (Throwable t) {
+				Common.error(t, "Unable to set power for " + name);
 			}
 		});
 	}

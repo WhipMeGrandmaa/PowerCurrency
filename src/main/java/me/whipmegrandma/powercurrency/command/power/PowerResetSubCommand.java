@@ -10,14 +10,14 @@ import org.mineacademy.fo.command.SimpleSubCommand;
 
 import java.util.List;
 
-public final class PowerSetSubCommand extends SimpleSubCommand {
+public final class PowerResetSubCommand extends SimpleSubCommand {
 
-	public PowerSetSubCommand(SimpleCommandGroup parent) {
-		super(parent, "set");
+	public PowerResetSubCommand(SimpleCommandGroup parent) {
+		super(parent, "reset");
 
-		this.setUsage("<username> <power>");
-		this.setPermission("power.command.set");
-		this.setMinArguments(2);
+		this.setUsage("<username>");
+		this.setPermission("power.command.reset");
+		this.setMinArguments(1);
 	}
 
 
@@ -25,8 +25,6 @@ public final class PowerSetSubCommand extends SimpleSubCommand {
 	protected void onCommand() {
 
 		String param = args[0];
-		int power = findNumber(1, "The amount must be a number!");
-		checkBoolean(power >= 0, "The amount must be a positive whole number!");
 
 		PowerDatabase.getInstance().pollCache(param, data -> {
 
@@ -40,19 +38,19 @@ public final class PowerSetSubCommand extends SimpleSubCommand {
 			Player receiver = Bukkit.getPlayerExact(param);
 
 			if (receiver == null) {
-				Common.tell(sender, "The power of " + name + " has been set to " + power + ".");
-				PowerDatabase.getInstance().setCache(param, power);
+				Common.tell(sender, "The power of " + name + " has been reset.");
+				PowerDatabase.getInstance().setCache(param, 0);
 
 				return;
 			}
 
 			if (!receiver.equals(getPlayer())) {
-				Common.tell(sender, "The power of " + name + " has been set to " + power + ".");
-				Common.tell(receiver, "Your power has been set to " + power + ".");
+				Common.tell(sender, "The power of " + name + " has been reset.");
+				Common.tell(receiver, "Your power has been reset.");
 			} else
-				Common.tell(sender, "Your power has been set to " + power + ".");
+				Common.tell(sender, "Your power has been reset.");
 
-			PowerManager.setPower(receiver, power);
+			PowerManager.setPower(receiver, 0);
 
 		});
 

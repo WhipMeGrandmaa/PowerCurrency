@@ -18,13 +18,13 @@ public class PowerManager {
 		powerManager.remove(player.getUniqueId());
 	}
 
+	public static int getPower(Player player) {
+		return powerManager.get(player.getUniqueId());
+	}
+
 	public static void setPower(Player player, int power) {
 		powerManager.put(player.getUniqueId(), power);
 
 		PowerDatabase.getInstance().saveCache(player);
-	}
-
-	public static int getPower(Player player) {
-		return powerManager.get(player.getUniqueId());
 	}
 }
