@@ -1,7 +1,8 @@
 package me.whipmegrandma.powercurrency.database;
 
 import lombok.Getter;
-import me.whipmegrandma.manager.PowerManager;
+import me.whipmegrandma.powercurrency.manager.PowerManager;
+import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 import org.mineacademy.fo.Common;
 import org.mineacademy.fo.Valid;
@@ -11,6 +12,7 @@ import org.mineacademy.fo.model.Tuple;
 
 import java.sql.ResultSet;
 import java.util.HashMap;
+import java.util.UUID;
 import java.util.function.Consumer;
 
 public final class PowerDatabase extends SimpleDatabase {
@@ -101,11 +103,12 @@ public final class PowerDatabase extends SimpleDatabase {
 	public void pollCache(String playerName, Consumer<Tuple<String, Integer>> callThisOnLoad) {
 		this.checkLoadedAndSync();
 
+		UUID uuid = Bukkit.getOfflinePlayer(playerName).getUniqueId();
 		Common.runAsync(() -> {
 
 			try {
 
-				ResultSet resultSet = this.query("SELECT * FROM {table} WHERE Name = '" + playerName + "' COLLATE NOCASE");
+				ResultSet resultSet = this.query("SELECT * FROM {table} WHERE UUID = '" + uuid + "' COLLATE NOCASE");
 
 				if (!resultSet.next()) {
 					Common.runLater(() -> callThisOnLoad.accept(null));
@@ -142,7 +145,7 @@ public final class PowerDatabase extends SimpleDatabase {
 				});
 
 				Common.runLater(() -> callThisOnLoad.accept(map));
-				
+
 			} catch (Throwable t) {
 				Common.error(t, "Unable to load all data.");
 			}
@@ -152,10 +155,11 @@ public final class PowerDatabase extends SimpleDatabase {
 	public void setCache(String name, int power) {
 		this.checkLoadedAndSync();
 
+		UUID uuid = Bukkit.getOfflinePlayer(name).getUniqueId();
 		Common.runLaterAsync(() -> {
 
 			try {
-				this.update("UPDATE {table} set Power = '" + power + "' WHERE Name = '" + name + "' COLLATE NOCASE");
+				this.update("UPDATE {table} set Power = '" + power + "' WHERE UUID = '" + uuid + "' COLLATE NOCASE");
 
 			} catch (Throwable t) {
 				Common.error(t, "Unable to set power for " + name);

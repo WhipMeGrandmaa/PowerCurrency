@@ -1,0 +1,200 @@
+Main_Menu:
+  Title: "&5&lPower Sell-Shop"
+  Size: "9 * 6"
+  Buttons:
+    Player_Info:
+      Slot: "4"
+      Material: PLAYER_HEAD
+      Player_Skull: true
+      Glow: true
+      Title: "&6&lInfo of %player_name%"
+      Lore:
+        - "&6Money: %vault_eco_balance_formatted%"
+        - "&6Power: %power_playerpower%"
+        - "&6Lives: %lives_lives%"
+    Spider_Eye:
+      Slot: "9 * 2 + 2"
+      Material: SPIDER_EYE
+      Title: "&5&lSpider Eye"
+      Lore:
+        - "&7Sell Price : 1"
+      Click:
+        Shop:
+          Price: 1
+    Rotten_Flesh:
+      Slot: "9 * 2 + 3"
+      Material: ROTTEN_FLESH
+      Title: "&5&lRotten Flesh"
+      Lore:
+        - "&7Sell Price : 2"
+      Click:
+        Shop:
+          Price: 2
+    Amethyst_Shard:
+      Slot: "9 * 2 + 4"
+      Material: AMETHYST_SHARD
+      Title: "&5&lAmethyst Shard"
+      Lore:
+        - "&7Sell Price : 3"
+      Click:
+        Shop:
+          Price: 3
+    Nether_Ward:
+      Slot: "9 * 2 + 5"
+      Material: NETHER_WART
+      Title: "&5&lNether Wart"
+      Lore:
+        - "&7Sell Price : 4"
+      Click:
+        Shop:
+          Price: 4
+    Magma_Cream:
+      Slot: "9 * 2 + 6"
+      Material: MAGMA_CREAM
+      Title: "&5&lMagma Cream"
+      Lore:
+        - "&7Sell Price : 6"
+      Click:
+        Shop:
+          Price: 6
+    Blaze_Rod:
+      Slot: "9 * 3 + 2"
+      Material: BLAZE_ROD
+      Title: "&5&lBlaze Rod"
+      Lore:
+        - "&7Sell Price : 7"
+      Click:
+        Sold_Message: "&aSold Blaze Rod!"
+        Insufficient_Message: "&cInsufficient Blaze Rod!"
+        Shop:
+          Price: 7
+
+    1:
+      Slot: "9 * 0 + 0"
+      Material: GRAY_STAINED_GLASS_PANE
+      Title: " "
+    2:
+      Slot: "9 * 0 + 1"
+      Material: GRAY_STAINED_GLASS_PANE
+      Title: " "
+    3:
+      Slot: "9 * 0 + 2"
+      Material: GRAY_STAINED_GLASS_PANE
+      Title: " "
+    4:
+      Slot: "9 * 0 + 3"
+      Material: GRAY_STAINED_GLASS_PANE
+      Title: " "
+    6:
+      Slot: "9 * 0 + 5"
+      Material: GRAY_STAINED_GLASS_PANE
+      Title: " "
+    7:
+      Slot: "9 * 0 + 6"
+      Material: GRAY_STAINED_GLASS_PANE
+      Title: " "
+    8:
+      Slot: "9 * 0 + 7"
+      Material: GRAY_STAINED_GLASS_PANE
+      Title: " "
+    9:
+      Slot: "9 * 0 + 8"
+      Material: GRAY_STAINED_GLASS_PANE
+      Title: " "
+    10:
+      Slot: "9 * 1 + 0"
+      Material: GRAY_STAINED_GLASS_PANE
+      Title: " "
+    11:
+      Slot: "9 * 1 + 8"
+      Material: GRAY_STAINED_GLASS_PANE
+      Title: " "
+    12:
+      Slot: "9 * 2 + 0"
+      Material: GRAY_STAINED_GLASS_PANE
+      Title: " "
+    13:
+      Slot: "9 * 2 + 8"
+      Material: GRAY_STAINED_GLASS_PANE
+      Title: " "
+    14:
+      Slot: "9 * 3 + 0"
+      Material: GRAY_STAINED_GLASS_PANE
+      Title: " "
+    15:
+      Slot: "9 * 3 + 8"
+      Material: GRAY_STAINED_GLASS_PANE
+      Title: " "
+    16:
+      Slot: "9 * 4 + 0"
+      Material: GRAY_STAINED_GLASS_PANE
+      Title: " "
+    17:
+      Slot: "9 * 4 + 8"
+      Material: GRAY_STAINED_GLASS_PANE
+      Title: " "
+    18:
+      Slot: "9 * 5 + 0"
+      Material: GRAY_STAINED_GLASS_PANE
+      Title: " "
+    19:
+      Slot: "9 * 5 + 8"
+      Material: GRAY_STAINED_GLASS_PANE
+      Title: " "
+    20:
+      Slot: "9 * 6 + 0"
+      Material: GRAY_STAINED_GLASS_PANE
+      Title: " "
+    21:
+      Slot: "9 * 6 + 8"
+      Material: GRAY_STAINED_GLASS_PANE
+      Title: " "
+    22:
+      Slot: "9 * 5 + 1"
+      Material: GRAY_STAINED_GLASS_PANE
+      Title: " "
+    23:
+      Slot: "9 * 5 + 2"
+      Material: GRAY_STAINED_GLASS_PANE
+      Title: " "
+    24:
+      Slot: "9 * 5 + 3"
+      Material: GRAY_STAINED_GLASS_PANE
+      Title: " "
+    25:
+      Slot: "9 * 5 + 4"
+      Material: GRAY_STAINED_GLASS_PANE
+      Title: " "
+    26:
+      Slot: "9 * 5 + 5"
+      Material: GRAY_STAINED_GLASS_PANE
+      Title: " "
+    27:
+      Slot: "9 * 5 + 6"
+      Material: GRAY_STAINED_GLASS_PANE
+      Title: " "
+    28:
+      Slot: "9 * 5 + 7"
+      Material: GRAY_STAINED_GLASS_PANE
+      Title: " "
+
+Second_Menu:
+  Title: "Second Menu"
+  Size: "9 * 2"
+  Info:
+    - "This menu shows example"
+    - "of getting buttons"
+    - "as items."
+  Buttons:
+    Mob_Egg:
+      Slot: "4"
+      Material: ZOMBIE_SPAWN_EGG
+      Title: "Zombie Spawn Egg"
+      Lore:
+        - ""
+        - "Click to get this"
+        - "item to your inventory!"
+      Click:
+        Menu: Main_Menu
+        Give_Item: true
+        Animate: "Item copied to inventory!"

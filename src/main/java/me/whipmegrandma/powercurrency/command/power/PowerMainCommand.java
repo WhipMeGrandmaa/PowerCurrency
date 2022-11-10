@@ -24,6 +24,8 @@ public final class PowerMainCommand extends SimpleCommandGroup {
 		this.registerSubcommand(new PowerResetSubCommand(this));
 		this.registerSubcommand(new PowerGiveSubCommand(this));
 		this.registerSubcommand(new PowerTakeSubCommand(this));
+		this.registerSubcommand(new PowerEditSubCommand(this));
+		this.registerSubcommand(new PowerBuySubCommand(this));
 	}
 
 	@Override

@@ -1,7 +1,7 @@
 package me.whipmegrandma.powercurrency.command.power;
 
-import me.whipmegrandma.manager.PowerManager;
 import me.whipmegrandma.powercurrency.database.PowerDatabase;
+import me.whipmegrandma.powercurrency.manager.PowerManager;
 import org.bukkit.Bukkit;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;

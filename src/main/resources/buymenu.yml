@@ -1,0 +1,229 @@
+Main_Menu:
+  Title: "&5&lPower Buy-Shop"
+  Size: "9 * 6"
+  Buttons:
+    Player_Info:
+      Slot: "4"
+      Material: PLAYER_HEAD
+      Player_Skull: true
+      Glow: true
+      Title: "&6&lInfo of %player_name%"
+      Lore:
+        - "&6Money: %vault_eco_balance_formatted%"
+        - "&6Power: %power_playerpower%"
+        - "&6Lives: %lives_lives%"
+    Eco_Transfer:
+      Slot: "9 * 2 + 2"
+      Material: PAPER
+      Title: "&5&lEco Transfer"
+      Lore:
+        - "&7Transfer 50 Power to $1,000"
+      Click:
+        Command:
+          - "/eco give %player_name% 1000"
+        Received_Message: "&aYou received $1000!"
+        Insufficient_Message: "&cInsufficient funds!"
+        Shop:
+          Price: 50
+    Random_Enchant:
+      Slot: "9 * 2 + 3"
+      Material: ENCHANTED_BOOK
+      Title: "&5&lRandom Enchant"
+      Lore:
+        - "&7Buy Price : 85 Power"
+        - "&fMay Obtain :"
+        - "&fProtection (I-IV)"
+        - "&fUnbreaking (I-IV)"
+        - "&fSharpness (II-IV)"
+        - "&fKnockback (I-III)"
+      Click:
+        Received_Message: "&aYou received an enchantment!"
+        Insufficient_Message: "&cInsufficient funds!"
+        Shop:
+          Price: 85
+    Elytra:
+      Slot: "9 * 2 + 4"
+      Material: ELYTRA
+      Title: "&5&lElytra"
+      Lore:
+        - "&7Buy Price : 215 Power"
+      Click:
+        Give_Item: true
+        Received_Message: "&aYou received an elytra!"
+        Shop:
+          Price: 215
+    Shulker_Box:
+      Slot: "9 * 2 + 5"
+      Material: SHULKER_BOX
+      Title: "&5&lShulker Box"
+      Lore:
+        - "&7Buy Price : 250 Power"
+      Click:
+        Give_Item: true
+        Received_Message: "&aYou received a shulker box!"
+        Shop:
+          Price: 250
+    Villager_Spawner_Egg:
+      Slot: "9 * 2 + 6"
+      Material: VILLAGER_SPAWN_EGG
+      Title: "&5&lVillager Spawn Egg"
+      Lore:
+        - "&7Buy Price : 300 Power"
+      Click:
+        Give_Item: true
+        Received_Message: "&aYou received a villager spawn egg!"
+        Shop:
+          Price: 300
+    Vote_Key:
+      Slot: "9 * 3 + 2"
+      Material: TRIPWIRE_HOOK
+      Title: "&5&lVote Key"
+      Lore:
+        - "&7Buy Price : 350 Power"
+      Click:
+        Command:
+          - "/give %player_name% tripwire_hook 1"
+        Received_Message: "&aYou received a vote key!"
+        Shop:
+          Price: 350
+    One_Life:
+      Slot: "9 * 3 + 3"
+      Material: SLIME_BALL
+      Title: "&5&l+1 Life"
+      Lore:
+        - "&7Buy Price : 450 Power"
+      Click:
+        Command:
+          - "/give %player_name% slime_ball 1"
+        Received_Message: "&aYou received a life!"
+        Shop:
+          Price: 450
+    1:
+      Slot: "9 * 0 + 0"
+      Material: GRAY_STAINED_GLASS_PANE
+      Title: " "
+    2:
+      Slot: "9 * 0 + 1"
+      Material: GRAY_STAINED_GLASS_PANE
+      Title: " "
+    3:
+      Slot: "9 * 0 + 2"
+      Material: GRAY_STAINED_GLASS_PANE
+      Title: " "
+    4:
+      Slot: "9 * 0 + 3"
+      Material: GRAY_STAINED_GLASS_PANE
+      Title: " "
+    6:
+      Slot: "9 * 0 + 5"
+      Material: GRAY_STAINED_GLASS_PANE
+      Title: " "
+    7:
+      Slot: "9 * 0 + 6"
+      Material: GRAY_STAINED_GLASS_PANE
+      Title: " "
+    8:
+      Slot: "9 * 0 + 7"
+      Material: GRAY_STAINED_GLASS_PANE
+      Title: " "
+    9:
+      Slot: "9 * 0 + 8"
+      Material: GRAY_STAINED_GLASS_PANE
+      Title: " "
+    10:
+      Slot: "9 * 1 + 0"
+      Material: GRAY_STAINED_GLASS_PANE
+      Title: " "
+    11:
+      Slot: "9 * 1 + 8"
+      Material: GRAY_STAINED_GLASS_PANE
+      Title: " "
+    12:
+      Slot: "9 * 2 + 0"
+      Material: GRAY_STAINED_GLASS_PANE
+      Title: " "
+    13:
+      Slot: "9 * 2 + 8"
+      Material: GRAY_STAINED_GLASS_PANE
+      Title: " "
+    14:
+      Slot: "9 * 3 + 0"
+      Material: GRAY_STAINED_GLASS_PANE
+      Title: " "
+    15:
+      Slot: "9 * 3 + 8"
+      Material: GRAY_STAINED_GLASS_PANE
+      Title: " "
+    16:
+      Slot: "9 * 4 + 0"
+      Material: GRAY_STAINED_GLASS_PANE
+      Title: " "
+    17:
+      Slot: "9 * 4 + 8"
+      Material: GRAY_STAINED_GLASS_PANE
+      Title: " "
+    18:
+      Slot: "9 * 5 + 0"
+      Material: GRAY_STAINED_GLASS_PANE
+      Title: " "
+    19:
+      Slot: "9 * 5 + 8"
+      Material: GRAY_STAINED_GLASS_PANE
+      Title: " "
+    20:
+      Slot: "9 * 6 + 0"
+      Material: GRAY_STAINED_GLASS_PANE
+      Title: " "
+    21:
+      Slot: "9 * 6 + 8"
+      Material: GRAY_STAINED_GLASS_PANE
+      Title: " "
+    22:
+      Slot: "9 * 5 + 1"
+      Material: GRAY_STAINED_GLASS_PANE
+      Title: " "
+    23:
+      Slot: "9 * 5 + 2"
+      Material: GRAY_STAINED_GLASS_PANE
+      Title: " "
+    24:
+      Slot: "9 * 5 + 3"
+      Material: GRAY_STAINED_GLASS_PANE
+      Title: " "
+    25:
+      Slot: "9 * 5 + 4"
+      Material: GRAY_STAINED_GLASS_PANE
+      Title: " "
+    26:
+      Slot: "9 * 5 + 5"
+      Material: GRAY_STAINED_GLASS_PANE
+      Title: " "
+    27:
+      Slot: "9 * 5 + 6"
+      Material: GRAY_STAINED_GLASS_PANE
+      Title: " "
+    28:
+      Slot: "9 * 5 + 7"
+      Material: GRAY_STAINED_GLASS_PANE
+      Title: " "
+
+Second_Menu:
+  Title: "Second Menu"
+  Size: "9 * 2"
+  Info:
+    - "This menu shows example"
+    - "of getting buttons"
+    - "as items."
+  Buttons:
+    Mob_Egg:
+      Slot: "4"
+      Material: ZOMBIE_SPAWN_EGG
+      Title: "Zombie Spawn Egg"
+      Lore:
+        - ""
+        - "Click to get this"
+        - "item to your inventory!"
+      Click:
+        Menu: Main_Menu
+        Give_Item: true
+        Animate: "Item copied to inventory!"
