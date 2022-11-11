@@ -1,16 +1,23 @@
 package me.whipmegrandma.powercurrency.hook;
 
+import lombok.Getter;
 import lombok.Setter;
 import me.clip.placeholderapi.expansion.PlaceholderExpansion;
+import me.whipmegrandma.powercurrency.database.PowerDatabase;
+import me.whipmegrandma.powercurrency.manager.PowerManager;
 import org.bukkit.entity.Player;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
-import world.bentobox.bentobox.database.Database;
+import org.mineacademy.fo.Common;
 
-import java.util.Map;
+import java.util.*;
 
 @Setter
+@Getter
 public class PlaceholderAPIHook extends PlaceholderExpansion {
+	@Setter
+	@Getter
+	private static PlaceholderAPIHook instance;
 
 	private String ptopname1;
 	private String ptopname2;
@@ -30,9 +37,13 @@ public class PlaceholderAPIHook extends PlaceholderExpansion {
 	private String ptopbal7;
 	private String ptopbal8;
 
+	public PlaceholderAPIHook() {
+		setInstance(this);
+	}
+
 	@Override
 	public @NotNull String getIdentifier() {
-		return "power";
+		return "powercurrency";
 	}
 
 	@Override
@@ -60,116 +71,115 @@ public class PlaceholderAPIHook extends PlaceholderExpansion {
 		if (player == null)
 			return "";
 
+		Common.runLater(() -> PowerDatabase.getInstance().pollAllCache(PlaceholderAPIHook::updateVariables));
+
 		if ("playerpower".equals(params))
 			return String.valueOf(PowerManager.getPower(player));
 
 		if ("ptopname1".equals(params))
-			return this.ptopname1;
+			return getInstance().getPtopname1();
 
 		if ("ptopname2".equals(params))
-			return this.ptopname2;
+			return getInstance().getPtopname2();
 
 		if ("ptopname3".equals(params))
-			return this.ptopname3;
+			return getInstance().getPtopname3();
 
 		if ("ptopname4".equals(params))
-			return this.ptopname4;
+			return getInstance().getPtopname4();
 
 		if ("ptopname5".equals(params))
-			return this.ptopname5;
+			return getInstance().getPtopname5();
 
 		if ("ptopname6".equals(params))
-			return this.ptopname6;
+			return getInstance().getPtopname6();
 
 		if ("ptopname7".equals(params))
-			return this.ptopname7;
+			return getInstance().getPtopname7();
 
 		if ("ptopname8".equals(params))
-			return this.ptopname8;
-
+			return getInstance().getPtopname8();
 
 		if ("ptopbal1".equals(params))
-			return this.ptopbal1;
+			return getInstance().getPtopbal1();
 
 		if ("ptopbal2".equals(params))
-			return this.ptopbal2;
+			return getInstance().getPtopbal2();
 
 		if ("ptopbal3".equals(params))
-			return this.ptopbal3;
+			return getInstance().getPtopbal3();
 
 		if ("ptopbal4".equals(params))
-			return this.ptopbal4;
+			return getInstance().getPtopbal4();
 
 		if ("ptopbal5".equals(params))
-			return this.ptopbal5;
+			return getInstance().getPtopbal5();
 
 		if ("ptopbal6".equals(params))
-			return this.ptopbal6;
+			return getInstance().getPtopbal6();
 
 		if ("ptopbal7".equals(params))
-			return this.ptopbal7;
+			return getInstance().getPtopbal7();
 
 		if ("ptopbal8".equals(params))
-			return this.ptopbal8;
+			return getInstance().getPtopbal8();
 
 		return null;
 	}
 
-	public static void loadPapi() {
+	private static void updateVariables(HashMap<String, Integer> map) {
 
-		Database.getInstance().pollAllCache(cache -> {
+		List<Map.Entry<String, Integer>> sorted = new ArrayList<>(map.entrySet());
 
-			PlaceholderApi api = new PlaceholderApi();
+		Collections.sort(sorted, (o1, o2) -> o2.getValue().compareTo(o1.getValue()));
 
-			int i = 0;
+		int i = 0;
 
-			for (Map.Entry<String, Integer> map : PowerManager.sortLeaderboard(cache)) {
-				i++;
+		for (Map.Entry<String, Integer> variable : sorted) {
+			i++;
 
-				if (i == 1) {
-					api.setPtopname1(map.getKey());
-					api.setPtopbal1(String.valueOf(map.getValue()));
-				}
-
-				if (i == 2) {
-					api.setPtopname2(map.getKey());
-					api.setPtopbal2(String.valueOf(map.getValue()));
-				}
-
-				if (i == 3) {
-					api.setPtopname3(map.getKey());
-					api.setPtopbal3(String.valueOf(map.getValue()));
-				}
-
-				if (i == 4) {
-					api.setPtopname4(map.getKey());
-					api.setPtopbal4(String.valueOf(map.getValue()));
-				}
-
-				if (i == 5) {
-					api.setPtopname5(map.getKey());
-					api.setPtopbal5(String.valueOf(map.getValue()));
-				}
-
-				if (i == 6) {
-					api.setPtopname6(map.getKey());
-					api.setPtopbal6(String.valueOf(map.getValue()));
-				}
-
-				if (i == 7) {
-					api.setPtopname7(map.getKey());
-					api.setPtopbal7(String.valueOf(map.getValue()));
-				}
-
-				if (i == 8) {
-					api.setPtopname8(map.getKey());
-					api.setPtopbal8(String.valueOf(map.getValue()));
-
-					break;
-				}
+			if (i == 1) {
+				getInstance().setPtopname1(variable.getKey());
+				getInstance().setPtopbal1(variable.getValue().toString());
 			}
 
-		});
+			if (i == 2) {
+				getInstance().setPtopname2(variable.getKey());
+				getInstance().setPtopbal2(variable.getValue().toString());
+			}
+
+			if (i == 3) {
+				getInstance().setPtopname3(variable.getKey());
+				getInstance().setPtopbal3(variable.getValue().toString());
+			}
+
+			if (i == 4) {
+				getInstance().setPtopname4(variable.getKey());
+				getInstance().setPtopbal4(variable.getValue().toString());
+			}
+
+			if (i == 5) {
+				getInstance().setPtopname5(variable.getKey());
+				getInstance().setPtopbal5(variable.getValue().toString());
+			}
+
+			if (i == 6) {
+				getInstance().setPtopname6(variable.getKey());
+				getInstance().setPtopbal6(variable.getValue().toString());
+			}
+
+			if (i == 7) {
+				getInstance().setPtopname7(variable.getKey());
+				getInstance().setPtopbal7(variable.getValue().toString());
+			}
+
+			if (i == 8) {
+				getInstance().setPtopname8(variable.getKey());
+				getInstance().setPtopbal8(variable.getValue().toString());
+
+				break;
+			}
+		}
 	}
 
 }

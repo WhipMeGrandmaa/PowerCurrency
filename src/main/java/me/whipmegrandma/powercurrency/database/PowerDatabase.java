@@ -4,6 +4,7 @@ import lombok.Getter;
 import me.whipmegrandma.powercurrency.manager.PowerManager;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
+import org.bukkit.scheduler.BukkitTask;
 import org.mineacademy.fo.Common;
 import org.mineacademy.fo.Valid;
 import org.mineacademy.fo.collection.SerializedMap;
@@ -129,10 +130,10 @@ public final class PowerDatabase extends SimpleDatabase {
 		});
 	}
 
-	public void pollAllCache(Consumer<HashMap<String, Integer>> callThisOnLoad) {
+	public BukkitTask pollAllCache(Consumer<HashMap<String, Integer>> callThisOnLoad) {
 		this.checkLoadedAndSync();
 
-		Common.runAsync(() -> {
+		BukkitTask task = Common.runAsync(() -> {
 
 			try {
 				HashMap<String, Integer> map = new HashMap<>();
@@ -150,6 +151,7 @@ public final class PowerDatabase extends SimpleDatabase {
 				Common.error(t, "Unable to load all data.");
 			}
 		});
+		return task;
 	}
 
 	public void setCache(String name, int power) {
@@ -174,5 +176,7 @@ public final class PowerDatabase extends SimpleDatabase {
 			this.connectUsingLastCredentials();
 
 		Valid.checkBoolean(this.isConnected(), "Not connected to database.");
+
 	}
+
 }

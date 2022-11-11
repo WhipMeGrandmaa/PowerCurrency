@@ -10,7 +10,7 @@ Main_Menu:
       Title: "&6&lInfo of %player_name%"
       Lore:
         - "&6Money: %vault_eco_balance_formatted%"
-        - "&6Power: %power_playerpower%"
+        - "&6Power: %powercurrency_playerpower%"
         - "&6Lives: %lives_lives%"
     Eco_Transfer:
       Slot: "9 * 2 + 2"
