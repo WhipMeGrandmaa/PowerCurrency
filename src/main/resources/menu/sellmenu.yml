@@ -1,103 +1,74 @@
 Main_Menu:
-  Title: "&5&lPower Buy-Shop"
+  Title: "&5&lPower Sell-Shop"
   Size: "9 * 6"
   Buttons:
     Player_Info:
       Slot: "4"
       Material: PLAYER_HEAD
-      Player_Skull: true
+      Player_Skull_Name: "%player_name%"
       Glow: true
       Title: "&6&lInfo of %player_name%"
       Lore:
         - "&6Money: %vault_eco_balance_formatted%"
         - "&6Power: %powercurrency_playerpower%"
         - "&6Lives: %lives_lives%"
-    Eco_Transfer:
+    Spider_Eye:
       Slot: "9 * 2 + 2"
-      Material: PAPER
-      Title: "&5&lEco Transfer"
+      Material: SPIDER_EYE
+      Title: "&5&lSpider Eye"
       Lore:
-        - "&7Transfer 50 Power to $1,000"
+        - "&7Sell Price : 1"
       Click:
-        Command:
-          - "/eco give %player_name% 1000"
-        Received_Message: "&aYou received $1000!"
-        Insufficient_Message: "&cInsufficient funds!"
         Shop:
-          Price: 50
-    Random_Enchant:
+          Price: 1
+    Rotten_Flesh:
       Slot: "9 * 2 + 3"
-      Material: ENCHANTED_BOOK
-      Title: "&5&lRandom Enchant"
+      Material: ROTTEN_FLESH
+      Title: "&5&lRotten Flesh"
       Lore:
-        - "&7Buy Price : 85 Power"
-        - "&fMay Obtain :"
-        - "&fProtection (I-IV)"
-        - "&fUnbreaking (I-IV)"
-        - "&fSharpness (II-IV)"
-        - "&fKnockback (I-III)"
+        - "&7Sell Price : 2"
       Click:
-        Received_Message: "&aYou received an enchantment!"
-        Insufficient_Message: "&cInsufficient funds!"
         Shop:
-          Price: 85
-    Elytra:
+          Price: 2
+    Amethyst_Shard:
       Slot: "9 * 2 + 4"
-      Material: ELYTRA
-      Title: "&5&lElytra"
+      Material: AMETHYST_SHARD
+      Title: "&5&lAmethyst Shard"
       Lore:
-        - "&7Buy Price : 215 Power"
+        - "&7Sell Price : 3"
       Click:
-        Give_Item: true
-        Received_Message: "&aYou received an elytra!"
         Shop:
-          Price: 215
-    Shulker_Box:
+          Price: 3
+    Nether_Ward:
       Slot: "9 * 2 + 5"
-      Material: SHULKER_BOX
-      Title: "&5&lShulker Box"
+      Material: NETHER_WART
+      Title: "&5&lNether Wart"
       Lore:
-        - "&7Buy Price : 250 Power"
+        - "&7Sell Price : 4"
       Click:
-        Give_Item: true
-        Received_Message: "&aYou received a shulker box!"
         Shop:
-          Price: 250
-    Villager_Spawner_Egg:
+          Price: 4
+    Magma_Cream:
       Slot: "9 * 2 + 6"
-      Material: VILLAGER_SPAWN_EGG
-      Title: "&5&lVillager Spawn Egg"
+      Material: MAGMA_CREAM
+      Title: "&5&lMagma Cream"
       Lore:
-        - "&7Buy Price : 300 Power"
+        - "&7Sell Price : 6"
       Click:
-        Give_Item: true
-        Received_Message: "&aYou received a villager spawn egg!"
         Shop:
-          Price: 300
-    Vote_Key:
+          Price: 6
+    Blaze_Rod:
       Slot: "9 * 3 + 2"
-      Material: TRIPWIRE_HOOK
-      Title: "&5&lVote Key"
+      Material: BLAZE_ROD
+      Title: "&5&lBlaze Rod"
       Lore:
-        - "&7Buy Price : 350 Power"
+        - "&7Sell Price : 7"
       Click:
-        Command:
-          - "/give %player_name% tripwire_hook 1"
-        Received_Message: "&aYou received a vote key!"
+        Sold_Message: "&aSold Blaze Rod!"
+        Insufficient_Message: "&cInsufficient Blaze Rod!"
         Shop:
-          Price: 350
-    One_Life:
-      Slot: "9 * 3 + 3"
-      Material: SLIME_BALL
-      Title: "&5&l+1 Life"
-      Lore:
-        - "&7Buy Price : 450 Power"
-      Click:
-        Command:
-          - "/give %player_name% slime_ball 1"
-        Received_Message: "&aYou received a life!"
-        Shop:
-          Price: 450
+          Price: 7
+
     1:
       Slot: "9 * 0 + 0"
       Material: GRAY_STAINED_GLASS_PANE

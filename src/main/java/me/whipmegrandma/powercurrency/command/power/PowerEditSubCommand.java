@@ -15,7 +15,7 @@ public final class PowerEditSubCommand extends SimpleSubCommand {
 	public PowerEditSubCommand(SimpleCommandGroup parent) {
 		super(parent, "edit");
 
-		this.setPermission("power.command.edit");
+		this.setPermission("powercurrency.command.edit");
 	}
 
 	@Override

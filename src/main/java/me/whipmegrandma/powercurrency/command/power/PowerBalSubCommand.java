@@ -17,7 +17,7 @@ public final class PowerBalSubCommand extends SimpleSubCommand {
 		super(parent, "bal");
 
 		this.setUsage("<username>");
-		this.setPermission("power.command.balance");
+		this.setPermission("powercurrency.command.balance");
 	}
 
 

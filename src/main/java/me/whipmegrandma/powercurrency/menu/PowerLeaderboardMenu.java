@@ -4,13 +4,10 @@ import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import me.clip.placeholderapi.PlaceholderAPI;
-import me.whipmegrandma.powercurrency.manager.PowerManager;
 import me.whipmegrandma.powercurrency.model.ButtonChange;
 import org.bukkit.entity.Player;
 import org.bukkit.event.inventory.ClickType;
 import org.bukkit.inventory.ItemStack;
-import org.mineacademy.fo.Common;
-import org.mineacademy.fo.ItemUtil;
 import org.mineacademy.fo.MathUtil;
 import org.mineacademy.fo.Valid;
 import org.mineacademy.fo.collection.SerializedMap;
@@ -25,9 +22,9 @@ import org.mineacademy.fo.settings.YamlConfig;
 
 import java.util.*;
 
-public class SellMenu extends YamlConfig {
+public class PowerLeaderboardMenu extends YamlConfig {
 
-	private final static ConfigItems<SellMenu> menus = ConfigItems.fromFile("", "menu/sellmenu.yml", SellMenu.class);
+	private final static ConfigItems<PowerLeaderboardMenu> menus = ConfigItems.fromFile("", "menu/powerleaderboardmenu.yml", PowerLeaderboardMenu.class);
 
 	private final String name;
 
@@ -35,11 +32,11 @@ public class SellMenu extends YamlConfig {
 	private int size;
 	private List<ButtonData> buttons;
 
-	private SellMenu(String name) {
+	private PowerLeaderboardMenu(String name) {
 		this.name = name;
 
 		this.setPathPrefix(name);
-		this.loadConfiguration("menu/sellmenu.yml");
+		this.loadConfiguration("menu/powerleaderboardmenu.yml");
 	}
 
 	@Override
@@ -106,26 +103,13 @@ public class SellMenu extends YamlConfig {
 				@Override
 				public void onClickedInMenu(Player player, Menu menu, ClickType click) {
 
-					if (data.getPrice() > -1) {
-						if (PowerManager.sell(player, data.material, data.getPrice())) {
+					if (data.getMenuToOpen() != null) {
+						PowerLeaderboardMenu otherMenu = PowerLeaderboardMenu.findMenu(data.menuToOpen);
 
-							if (data.getCommand() != null)
-								for (String command : data.getCommand())
-									Common.dispatchCommandAsPlayer(player, HookManager.isPlaceholderAPILoaded() ? PlaceholderAPI.setPlaceholders(player, command) : command);
-
-							if (data.getMenuToOpen() != null) {
-								SellMenu otherMenu = SellMenu.findMenu(data.menuToOpen);
-
-								if (otherMenu == null)
-									menu.animateTitle("Invalid menu: " + data.getMenuToOpen());
-								else
-									otherMenu.toMenu(menu, player).displayTo(player);
-							}
-
-							menu.restartMenu(data.soldMessage);
-
-						} else
-							menu.restartMenu(data.insufficientMessage);
+						if (otherMenu == null)
+							menu.animateTitle("Invalid menu: " + data.getMenuToOpen());
+						else
+							otherMenu.toMenu(menu, player).displayTo(player);
 					}
 
 				}
@@ -137,6 +121,9 @@ public class SellMenu extends YamlConfig {
 
 					if (data.getPlayerSkullName() != null) {
 						String playerSkullName = HookManager.isPlaceholderAPILoaded() ? PlaceholderAPI.setPlaceholders(player, data.getPlayerSkullName()) : data.getPlayerSkullName();
+
+						if (playerSkullName.contains("%"))
+							return null;
 
 						return ItemCreator.of(data.getMaterial(), title, lore)
 								.glow(data.isGlow()).skullOwner(playerSkullName).make();
@@ -165,12 +152,7 @@ public class SellMenu extends YamlConfig {
 		private String title;
 		private List<String> lore;
 
-		private List<String> command;
 		private String menuToOpen;
-		private String soldMessage;
-		private String insufficientMessage;
-
-		private int price;
 
 		@Override
 		public SerializedMap serialize() {
@@ -197,20 +179,13 @@ public class SellMenu extends YamlConfig {
 
 			SerializedMap click = map.getMap("Click");
 
-			button.command = click.getStringList("Command");
 			button.menuToOpen = click.getString("Menu");
-			button.soldMessage = click.getString("Sold_Message", "&aSold " + ItemUtil.bountifyCapitalized(button.material) + "!");
-			button.insufficientMessage = click.getString("Insufficient_Message", "&cInsufficient " + ItemUtil.bountifyCapitalized(button.material) + "!");
-
-			SerializedMap buy = click.getMap("Shop");
-
-			button.price = buy.getInteger("Price", -1);
 
 			return button;
 		}
 	}
 
-	public static SellMenu findMenu(String name) {
+	public static PowerLeaderboardMenu findMenu(String name) {
 		return menus.findItem(name);
 	}
 

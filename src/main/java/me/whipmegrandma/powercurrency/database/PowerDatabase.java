@@ -1,6 +1,7 @@
 package me.whipmegrandma.powercurrency.database;
 
 import lombok.Getter;
+import me.whipmegrandma.powercurrency.manager.PowerLeaderboardManager;
 import me.whipmegrandma.powercurrency.manager.PowerManager;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
@@ -77,6 +78,8 @@ public final class PowerDatabase extends SimpleDatabase {
 
 				this.update("INSERT OR REPLACE INTO {table} (" + columns + ") VALUES (" + values + ");");
 
+				Common.runLater(this::updateLeaderboard);
+
 			} catch (Throwable t) {
 				Common.error(t, "Unable to save power for " + player.getName());
 			}
@@ -96,6 +99,8 @@ public final class PowerDatabase extends SimpleDatabase {
 
 			this.update("INSERT OR REPLACE INTO {table} (" + columns + ") VALUES (" + values + ");");
 
+			Common.runLater(this::updateLeaderboard);
+
 		} catch (Throwable t) {
 			Common.error(t, "Unable to save data for newly joined player " + player.getName());
 		}
@@ -104,8 +109,9 @@ public final class PowerDatabase extends SimpleDatabase {
 	public void pollCache(String playerName, Consumer<Tuple<String, Integer>> callThisOnLoad) {
 		this.checkLoadedAndSync();
 
-		UUID uuid = Bukkit.getOfflinePlayer(playerName).getUniqueId();
 		Common.runAsync(() -> {
+
+			UUID uuid = Bukkit.getOfflinePlayer(playerName).getUniqueId();
 
 			try {
 
@@ -154,15 +160,45 @@ public final class PowerDatabase extends SimpleDatabase {
 		return task;
 	}
 
+	public void updateLeaderboard() {
+		this.checkLoadedAndSync();
+		PowerLeaderboardManager.clear();
+
+		Common.runAsync(() -> {
+
+			try (ResultSet resultSet = this.query("SELECT Name, Power FROM {table} ORDER BY Power DESC LIMIT 8")) {
+				while (resultSet.next())
+					try {
+						String name = resultSet.getString("Name");
+						String power = String.valueOf(resultSet.getInt("Power"));
+						Tuple<String, String> data = new Tuple<>(name, power);
+
+						Common.runLater(() -> PowerLeaderboardManager.add(data));
+
+					} catch (final Throwable t) {
+						Common.log("Error reading a row from table while polling leaderboard.");
+
+						t.printStackTrace();
+						break;
+					}
+
+			} catch (final Throwable t) {
+				Common.error(t, "Error updating leaderboard.");
+			}
+		});
+	}
+
 	public void setCache(String name, int power) {
 		this.checkLoadedAndSync();
 
-		UUID uuid = Bukkit.getOfflinePlayer(name).getUniqueId();
 		Common.runLaterAsync(() -> {
+
+			UUID uuid = Bukkit.getOfflinePlayer(name).getUniqueId();
 
 			try {
 				this.update("UPDATE {table} set Power = '" + power + "' WHERE UUID = '" + uuid + "' COLLATE NOCASE");
 
+				this.updateLeaderboard();
 			} catch (Throwable t) {
 				Common.error(t, "Unable to set power for " + name);
 			}

@@ -16,7 +16,7 @@ public final class PowerResetSubCommand extends SimpleSubCommand {
 		super(parent, "reset");
 
 		this.setUsage("<username>");
-		this.setPermission("power.command.reset");
+		this.setPermission("powercurrency.command.reset");
 		this.setMinArguments(1);
 	}
 
@@ -39,6 +39,7 @@ public final class PowerResetSubCommand extends SimpleSubCommand {
 
 			if (receiver == null) {
 				Common.tell(sender, "The power of " + name + " has been reset.");
+
 				PowerDatabase.getInstance().setCache(param, 0);
 
 				return;

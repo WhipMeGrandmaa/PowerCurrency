@@ -11,8 +11,6 @@ public final class PowerBuySubCommand extends SimpleSubCommand {
 
 	public PowerBuySubCommand(SimpleCommandGroup parent) {
 		super(parent, "buy");
-
-		this.setPermission("power.command.buy");
 	}
 
 

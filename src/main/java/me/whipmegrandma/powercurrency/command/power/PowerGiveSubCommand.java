@@ -16,7 +16,7 @@ public final class PowerGiveSubCommand extends SimpleSubCommand {
 		super(parent, "give");
 
 		this.setUsage("<username> <power>");
-		this.setPermission("power.command.give");
+		this.setPermission("powercurrency.command.give");
 		this.setMinArguments(2);
 	}
 
@@ -39,12 +39,13 @@ public final class PowerGiveSubCommand extends SimpleSubCommand {
 			String name = data.getKey();
 			int balance = data.getValue();
 
-			PowerDatabase.getInstance().setCache(param, data.getValue() + power);
 
 			Player receiver = Bukkit.getPlayerExact(param);
 
 			if (receiver == null) {
 				Common.tell(sender, power + " power has been given to " + name + ".");
+
+				PowerDatabase.getInstance().setCache(param, balance + power);
 
 				return;
 			}
@@ -55,7 +56,7 @@ public final class PowerGiveSubCommand extends SimpleSubCommand {
 			} else
 				Common.tell(sender, power + " power has been given to you.");
 
-			PowerManager.setPower(receiver, data.getValue() + power);
+			PowerManager.setPower(receiver, balance + power);
 		});
 
 	}

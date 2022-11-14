@@ -1,6 +1,6 @@
 package me.whipmegrandma.powercurrency.command;
 
-import me.whipmegrandma.powercurrency.menu.BuyMenu;
+import me.whipmegrandma.powercurrency.menu.PowerLeaderboardMenu;
 import org.bukkit.command.CommandSender;
 import org.mineacademy.fo.annotation.AutoRegister;
 import org.mineacademy.fo.command.SimpleCommand;
@@ -8,18 +8,20 @@ import org.mineacademy.fo.command.SimpleCommand;
 import java.util.List;
 
 @AutoRegister
-public final class PowerBuyCommand extends SimpleCommand {
+public final class PowerLeaderboardCommand extends SimpleCommand {
 
-	public PowerBuyCommand() {
-		super("powerbuy|pbuy");
+	public PowerLeaderboardCommand() {
+		super("powerleaderboard|ptop|pleaderboard");
+
+		this.setPermission("power.command.leaderboard");
 	}
 
 	@Override
 	protected void onCommand() {
 		CommandSender sender = getSender();
 
-		BuyMenu menu = BuyMenu.findMenu("Main_Menu");
-		checkNotNull(menu, "'Main_Menu' is not set in buymenu.yml.");
+		PowerLeaderboardMenu menu = PowerLeaderboardMenu.findMenu("Main_Menu");
+		checkNotNull(menu, "'Main_Menu' is not set in powerleaderboardmenu.yml.");
 
 		menu.displayTo(getPlayer());
 	}

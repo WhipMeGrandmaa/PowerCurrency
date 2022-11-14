@@ -16,7 +16,7 @@ public final class PowerSetSubCommand extends SimpleSubCommand {
 		super(parent, "set");
 
 		this.setUsage("<username> <power>");
-		this.setPermission("power.command.set");
+		this.setPermission("powercurrency.command.set");
 		this.setMinArguments(2);
 	}
 
@@ -41,6 +41,7 @@ public final class PowerSetSubCommand extends SimpleSubCommand {
 
 			if (receiver == null) {
 				Common.tell(sender, "The power of " + name + " has been set to " + power + ".");
+
 				PowerDatabase.getInstance().setCache(param, power);
 
 				return;
@@ -53,7 +54,6 @@ public final class PowerSetSubCommand extends SimpleSubCommand {
 				Common.tell(sender, "Your power has been set to " + power + ".");
 
 			PowerManager.setPower(receiver, power);
-
 		});
 
 	}

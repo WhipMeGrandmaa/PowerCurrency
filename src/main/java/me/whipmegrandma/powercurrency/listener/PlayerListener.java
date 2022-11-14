@@ -16,6 +16,7 @@ import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.event.player.PlayerJoinEvent;
 import org.bukkit.event.player.PlayerQuitEvent;
 import org.bukkit.inventory.ItemStack;
+import org.mineacademy.fo.PlayerUtil;
 import org.mineacademy.fo.Valid;
 import org.mineacademy.fo.annotation.AutoRegister;
 import org.mineacademy.fo.remain.CompMetadata;
@@ -94,8 +95,12 @@ public final class PlayerListener implements Listener {
 		if (!PowerShopCauldronManager.getInstance().has(location) || player.getGameMode() == GameMode.CREATIVE)
 			return;
 
+
 		SellMenu menu = SellMenu.findMenu("Main_Menu");
 		Valid.checkNotNull(menu, "'Main_Menu' is not set in sellmenu.yml.");
+		
+		if (!PlayerUtil.hasPerm(player, "powercurrency.shop.sell"))
+			return;
 
 		menu.displayTo(player);
 	}

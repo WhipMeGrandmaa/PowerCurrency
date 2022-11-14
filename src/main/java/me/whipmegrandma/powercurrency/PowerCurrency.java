@@ -4,6 +4,7 @@ import me.whipmegrandma.powercurrency.database.PowerDatabase;
 import me.whipmegrandma.powercurrency.hook.PlaceholderAPIHook;
 import me.whipmegrandma.powercurrency.manager.PowerShopCauldronManager;
 import me.whipmegrandma.powercurrency.menu.BuyMenu;
+import me.whipmegrandma.powercurrency.menu.PowerLeaderboardMenu;
 import me.whipmegrandma.powercurrency.menu.SellMenu;
 import org.mineacademy.fo.Common;
 import org.mineacademy.fo.FileUtil;
@@ -14,20 +15,25 @@ public final class PowerCurrency extends SimplePlugin {
 
 	@Override
 	protected void onPluginStart() {
-		PowerDatabase.getInstance().connect("jdbc:sqlite:" + FileUtil.getOrMakeFile("database.sqlite").getAbsolutePath());
+		Common.setLogPrefix("[PowerCurrency] ");
 	}
 
 	@Override
 	protected void onReloadablesStart() {
+		PowerDatabase.getInstance().connect("jdbc:sqlite:" + FileUtil.getOrMakeFile("database.sqlite").getAbsolutePath());
+
 		PowerShopCauldronManager.onEnable();
 
 		BuyMenu.loadMenus();
 		SellMenu.loadMenus();
+		PowerLeaderboardMenu.loadMenus();
+
+		PowerDatabase.getInstance().updateLeaderboard();
 
 		if (HookManager.isPlaceholderAPILoaded()) {
 
-			new PlaceholderAPIHook().register();
 			Common.log("Enabled support for PlaceholderAPI.");
+			new PlaceholderAPIHook().register();
 
 		} else
 			Common.log("Disabling support for PlaceholderAPI. Please download PlaceholderAPI here https://www.spigotmc.org/resources/placeholderapi.6245/");
