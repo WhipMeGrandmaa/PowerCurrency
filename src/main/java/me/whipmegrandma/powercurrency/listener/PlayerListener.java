@@ -6,7 +6,9 @@ import me.whipmegrandma.powercurrency.manager.PowerShopCauldronManager;
 import me.whipmegrandma.powercurrency.menu.SellMenu;
 import org.bukkit.GameMode;
 import org.bukkit.Location;
+import org.bukkit.Material;
 import org.bukkit.block.Block;
+import org.bukkit.block.CreatureSpawner;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
@@ -16,6 +18,7 @@ import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.event.player.PlayerJoinEvent;
 import org.bukkit.event.player.PlayerQuitEvent;
 import org.bukkit.inventory.ItemStack;
+import org.bukkit.inventory.meta.BlockStateMeta;
 import org.mineacademy.fo.PlayerUtil;
 import org.mineacademy.fo.Valid;
 import org.mineacademy.fo.annotation.AutoRegister;
@@ -98,10 +101,28 @@ public final class PlayerListener implements Listener {
 
 		SellMenu menu = SellMenu.findMenu("Main_Menu");
 		Valid.checkNotNull(menu, "'Main_Menu' is not set in sellmenu.yml.");
-		
+
 		if (!PlayerUtil.hasPerm(player, "powercurrency.shop.sell"))
 			return;
 
 		menu.displayTo(player);
+	}
+
+
+	@EventHandler
+	public void onSpawnerPlace(BlockPlaceEvent event) {
+
+		ItemStack hand = event.getItemInHand();
+		Block block = event.getBlockPlaced();
+
+		if (hand.getType() == Material.SPAWNER) {
+
+			BlockStateMeta blockStateMeta = (BlockStateMeta) hand.getItemMeta();
+			CreatureSpawner creatureSpawner = (CreatureSpawner) blockStateMeta.getBlockState();
+			CreatureSpawner blockCreatureSpawner = (CreatureSpawner) block.getState();
+			
+			blockCreatureSpawner.setSpawnedType(creatureSpawner.getSpawnedType());
+			blockCreatureSpawner.update();
+		}
 	}
 }
