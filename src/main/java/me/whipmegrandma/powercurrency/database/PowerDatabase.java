@@ -21,6 +21,7 @@ public final class PowerDatabase extends SimpleDatabase {
 
 	@Getter
 	private static final PowerDatabase instance = new PowerDatabase();
+	public HashMap<Integer, String> test = new HashMap<>();
 
 	private PowerDatabase() {
 		this.addVariable("table", "PowerCurrency");
@@ -42,20 +43,20 @@ public final class PowerDatabase extends SimpleDatabase {
 		Common.runAsync(() -> {
 
 			try {
+				synchronized (this) {
+					ResultSet resultSet = this.query("SELECT Power FROM {table} WHERE UUID = '" + player.getUniqueId() + "'");
 
-				ResultSet resultSet = this.query("SELECT Power FROM {table} WHERE UUID = '" + player.getUniqueId() + "'");
+					if (!resultSet.next()) {
+						Common.runLater(() -> callThisOnLoad.accept(0));
+						this.saveNewPlayerCache(player);
 
-				if (!resultSet.next()) {
-					Common.runLater(() -> callThisOnLoad.accept(0));
-					this.saveNewPlayerCache(player);
+						return;
+					}
 
-					return;
+					Integer power = resultSet.getInt("Power");
+
+					Common.runLater(() -> callThisOnLoad.accept(power));
 				}
-
-				Integer power = resultSet.getInt("Power");
-
-				Common.runLater(() -> callThisOnLoad.accept(power));
-
 			} catch (Throwable t) {
 				Common.error(t, "Unable to load power for " + player.getName());
 			}
@@ -76,7 +77,9 @@ public final class PowerDatabase extends SimpleDatabase {
 				final String columns = Common.join(map.keySet());
 				final String values = Common.join(map.values(), ", ", value -> value == null || value.equals("NULL") ? "NULL" : "'" + value + "'");
 
-				this.update("INSERT OR REPLACE INTO {table} (" + columns + ") VALUES (" + values + ");");
+				synchronized (this) {
+					this.update("INSERT OR REPLACE INTO {table} (" + columns + ") VALUES (" + values + ");");
+				}
 
 				Common.runLater(this::updateLeaderboard);
 
@@ -97,7 +100,9 @@ public final class PowerDatabase extends SimpleDatabase {
 			String columns = Common.join(map.keySet());
 			String values = Common.join(map.values(), ", ", value -> value == null || value.equals("NULL") ? "NULL" : "'" + value + "'");
 
-			this.update("INSERT OR REPLACE INTO {table} (" + columns + ") VALUES (" + values + ");");
+			synchronized (this) {
+				this.update("INSERT OR REPLACE INTO {table} (" + columns + ") VALUES (" + values + ");");
+			}
 
 			Common.runLater(this::updateLeaderboard);
 
@@ -114,22 +119,23 @@ public final class PowerDatabase extends SimpleDatabase {
 			UUID uuid = Bukkit.getOfflinePlayer(playerName).getUniqueId();
 
 			try {
+				synchronized (this) {
+					ResultSet resultSet = this.query("SELECT * FROM {table} WHERE UUID = '" + uuid + "' COLLATE NOCASE");
 
-				ResultSet resultSet = this.query("SELECT * FROM {table} WHERE UUID = '" + uuid + "' COLLATE NOCASE");
 
-				if (!resultSet.next()) {
-					Common.runLater(() -> callThisOnLoad.accept(null));
+					if (!resultSet.next()) {
+						Common.runLater(() -> callThisOnLoad.accept(null));
 
-					return;
+						return;
+					}
+
+					String name = resultSet.getString("Name");
+					Integer power = resultSet.getInt("Power");
+
+					Tuple<String, Integer> data = new Tuple<>(name, power);
+
+					Common.runLater(() -> callThisOnLoad.accept(data));
 				}
-
-				String name = resultSet.getString("Name");
-				Integer power = resultSet.getInt("Power");
-
-				Tuple<String, Integer> data = new Tuple<>(name, power);
-
-				Common.runLater(() -> callThisOnLoad.accept(data));
-
 			} catch (Throwable t) {
 				Common.error(t, "Unable to load power for " + playerName);
 			}
@@ -142,17 +148,18 @@ public final class PowerDatabase extends SimpleDatabase {
 		BukkitTask task = Common.runAsync(() -> {
 
 			try {
-				HashMap<String, Integer> map = new HashMap<>();
+				synchronized (this) {
+					HashMap<String, Integer> map = new HashMap<>();
 
-				this.selectAll("{table}", data -> {
-					String name = data.getString("Name");
-					Integer power = data.getInt("Power");
+					this.selectAll("{table}", data -> {
+						String name = data.getString("Name");
+						Integer power = data.getInt("Power");
 
-					map.put(name, power);
-				});
+						map.put(name, power);
+					});
 
-				Common.runLater(() -> callThisOnLoad.accept(map));
-
+					Common.runLater(() -> callThisOnLoad.accept(map));
+				}
 			} catch (Throwable t) {
 				Common.error(t, "Unable to load all data.");
 			}
@@ -165,25 +172,26 @@ public final class PowerDatabase extends SimpleDatabase {
 		PowerLeaderboardManager.clear();
 
 		Common.runAsync(() -> {
+			synchronized (this) {
+				try (ResultSet resultSet = this.query("SELECT Name, Power FROM {table} ORDER BY Power DESC LIMIT 8")) {
+					while (resultSet.next())
+						try {
+							String name = resultSet.getString("Name");
+							String power = String.valueOf(resultSet.getInt("Power"));
+							Tuple<String, String> data = new Tuple<>(name, power);
 
-			try (ResultSet resultSet = this.query("SELECT Name, Power FROM {table} ORDER BY Power DESC LIMIT 8")) {
-				while (resultSet.next())
-					try {
-						String name = resultSet.getString("Name");
-						String power = String.valueOf(resultSet.getInt("Power"));
-						Tuple<String, String> data = new Tuple<>(name, power);
+							Common.runLater(() -> PowerLeaderboardManager.add(data));
 
-						Common.runLater(() -> PowerLeaderboardManager.add(data));
+						} catch (final Throwable t) {
+							Common.log("Error reading a row from table while polling leaderboard.");
 
-					} catch (final Throwable t) {
-						Common.log("Error reading a row from table while polling leaderboard.");
+							t.printStackTrace();
+							break;
+						}
 
-						t.printStackTrace();
-						break;
-					}
-
-			} catch (final Throwable t) {
-				Common.error(t, "Error updating leaderboard.");
+				} catch (final Throwable t) {
+					Common.error(t, "Error updating leaderboard.");
+				}
 			}
 		});
 	}
@@ -196,7 +204,9 @@ public final class PowerDatabase extends SimpleDatabase {
 			UUID uuid = Bukkit.getOfflinePlayer(name).getUniqueId();
 
 			try {
-				this.update("UPDATE {table} set Power = '" + power + "' WHERE UUID = '" + uuid + "' COLLATE NOCASE");
+				synchronized (this) {
+					this.update("UPDATE {table} set Power = '" + power + "' WHERE UUID = '" + uuid + "' COLLATE NOCASE");
+				}
 
 				this.updateLeaderboard();
 			} catch (Throwable t) {

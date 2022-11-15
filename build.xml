@@ -12,6 +12,7 @@
     <!-- Ninja: We read pom.xml file to find the Foundation version to use -->
     <xmlproperty file="pom.xml" prefix="pom" keeproot="false"/>
     <property name="foundation.version" value="${pom.properties.foundation.version}"/>
+    <property name="rtag.version" value="${pom.properties.rtag.version}"/>
 
     <!-- Change the name="" key on the top to your plugin's name
          and edit the path below to where your server is located.
@@ -26,7 +27,12 @@
 
             <!-- IF you have Foundation on your disk, remove the <zipgroupfileset> line and uncomment the <fileset> one. Repeat for the other <jar> goal below.
                  Foundation then needs to be in the same parent's folder as your plugin's source, such as workspace/Foundation and workspace/YourPlugin -->
-
+            <zipfileset
+                    src="${user.home}/.m2/repository/com/saicone/rtag/rtag/${rtag.version}/rtag-${rtag.version}.jar"
+                    excludes="*.yml,*.php"/>
+            <zipfileset
+                    src="${user.home}/.m2/repository/com/saicone/rtag/rtag-item/${rtag.version}/rtag-item-${rtag.version}.jar"
+                    excludes="*.yml,*.php"/>
             <zipgroupfileset dir="${user.home}/.m2/repository/com/github/kangarko/Foundation/${foundation.version}/"
                              includes="**/*${foundation.version}.jar"/>
             <!--<fileset dir="../Foundation/target/classes"/>-->

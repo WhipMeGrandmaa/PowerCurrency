@@ -21,7 +21,7 @@
     <properties>
 
         <!-- Change to your name or the main project author. -->
-        <author>whipmegrandma</author>
+        <author>WhipMeGrandma</author>
 
         <!-- Change to the full path where your main plugin class is located. -->
         <main.class>me.whipmegrandma.powercurrency.PowerCurrency</main.class>
@@ -43,6 +43,10 @@
         <!-- Leave on "com.github.kangarko" if you use Foundation from GitHub like most people,
              or change to "org.mineacademy" if you downloaded our library to your disk and compiled it. -->
         <foundation.path>com.github.kangarko</foundation.path>
+
+        <rtag.path>com.github.saicone.rtag</rtag.path>
+
+        <rtag.version>1.2.0</rtag.version>
 
         <!-- DO NOT EDIT. -->
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
@@ -90,6 +94,17 @@
             <artifactId>Foundation</artifactId>
             <version>${foundation.version}</version>
         </dependency>
+        <dependency>
+            <groupId>${rtag.path}</groupId>
+            <artifactId>rtag</artifactId>
+            <version>${rtag.version}</version>
+        </dependency>
+        <!-- Other modules -->
+        <dependency>
+            <groupId>${rtag.path}</groupId>
+            <artifactId>rtag-item</artifactId>
+            <version>${rtag.version}</version>
+        </dependency>
     </dependencies>
 
     <!-- DO NOT EDIT unless instructed to do so or you know what you're doing. -->
@@ -136,6 +151,8 @@
                     <artifactSet>
                         <includes>
                             <include>${foundation.path}:Foundation*</include>
+                            <include>${rtag.path}:rtag</include>
+                            <include>${rtag.path}:rtag-item</include>
                         </includes>
                     </artifactSet>
                     <relocations>
@@ -143,6 +160,8 @@
                         <relocation>
                             <pattern>org.mineacademy.fo</pattern>
                             <shadedPattern>${project.groupId}.${project.artifactId}.lib</shadedPattern>
+                            <pattern>com.saicone.rtag</pattern>
+                            <shadedPattern>${project.groupId}.${project.artifactId}.lib.rtag</shadedPattern>
                         </relocation>
                     </relocations>
                 </configuration>

@@ -1,5 +1,6 @@
 package me.whipmegrandma.powercurrency.menu;
 
+import com.saicone.rtag.RtagItem;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
@@ -146,15 +147,25 @@ public class BuyMenu extends YamlConfig {
 					String title = HookManager.isPlaceholderAPILoaded() ? PlaceholderAPI.setPlaceholders(player, data.getTitle()) : data.getTitle();
 					List<String> lore = HookManager.isPlaceholderAPILoaded() ? PlaceholderAPI.setPlaceholders(player, data.getLore()) : data.getLore();
 
+					ItemStack item = ItemCreator.of(data.getMaterial(), title, lore)
+							.glow(data.isGlow()).make();
+
 					if (data.getPlayerSkullName() != null) {
 						String playerSkullName = HookManager.isPlaceholderAPILoaded() ? PlaceholderAPI.setPlaceholders(player, data.getPlayerSkullName()) : data.getPlayerSkullName();
 
-						return ItemCreator.of(data.getMaterial(), title, lore)
+						item = ItemCreator.of(data.getMaterial(), title, lore)
 								.glow(data.isGlow()).skullOwner(playerSkullName).make();
 					}
 
-					return ItemCreator.of(data.getMaterial(), title, lore)
-							.glow(data.isGlow()).make();
+					if (data.getNbtTag() != -1) {
+						int tag = data.getNbtTag();
+
+						RtagItem itemTag = new RtagItem(item);
+						itemTag.set(tag, tag);
+						
+					}
+
+					return item;
 				}
 
 				private ItemStack randomSpawner() {
@@ -246,6 +257,7 @@ public class BuyMenu extends YamlConfig {
 		private CompMaterial material;
 		private String playerSkullName;
 		private boolean glow;
+		private int nbtTag;
 		private String title;
 		private List<String> lore;
 
@@ -276,6 +288,8 @@ public class BuyMenu extends YamlConfig {
 			button.playerSkullName = map.getString("Player_Skull_Name");
 
 			button.glow = map.getBoolean("Glow", false);
+
+			button.nbtTag = map.getInteger("NBT_Tag", -1);
 
 			button.title = map.getString("Title");
 			Valid.checkNotNull(button.title, "Missing 'Title' key from button: " + map);
