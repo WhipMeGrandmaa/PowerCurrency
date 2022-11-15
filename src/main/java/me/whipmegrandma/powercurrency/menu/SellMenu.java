@@ -23,7 +23,10 @@ import org.mineacademy.fo.remain.CompMaterial;
 import org.mineacademy.fo.settings.ConfigItems;
 import org.mineacademy.fo.settings.YamlConfig;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 public class SellMenu extends YamlConfig {
 
@@ -193,7 +196,7 @@ public class SellMenu extends YamlConfig {
 			button.title = map.getString("Title");
 			Valid.checkNotNull(button.title, "Missing 'Title' key from button: " + map);
 
-			button.lore = map.containsKey("Lore") ? map.getStringList("Lore") : Arrays.asList("");
+			button.lore = map.containsKey("Lore") ? map.getStringList("Lore") : new ArrayList<>();
 
 			SerializedMap click = map.getMap("Click");
 

@@ -90,7 +90,7 @@ Main_Menu:
     One_Life:
       Slot: "9 * 3 + 3"
       Material: SLIME_BALL
-      NBT_Tag: 1
+      Custom_Model_Data: 1
       Title: "&5&l+1 Life"
       Lore:
         - "&7Buy Price : 450 Power"

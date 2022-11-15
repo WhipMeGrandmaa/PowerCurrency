@@ -27,12 +27,6 @@
 
             <!-- IF you have Foundation on your disk, remove the <zipgroupfileset> line and uncomment the <fileset> one. Repeat for the other <jar> goal below.
                  Foundation then needs to be in the same parent's folder as your plugin's source, such as workspace/Foundation and workspace/YourPlugin -->
-            <zipfileset
-                    src="${user.home}/.m2/repository/com/saicone/rtag/rtag/${rtag.version}/rtag-${rtag.version}.jar"
-                    excludes="*.yml,*.php"/>
-            <zipfileset
-                    src="${user.home}/.m2/repository/com/saicone/rtag/rtag-item/${rtag.version}/rtag-item-${rtag.version}.jar"
-                    excludes="*.yml,*.php"/>
             <zipgroupfileset dir="${user.home}/.m2/repository/com/github/kangarko/Foundation/${foundation.version}/"
                              includes="**/*${foundation.version}.jar"/>
             <!--<fileset dir="../Foundation/target/classes"/>-->

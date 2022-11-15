@@ -147,25 +147,26 @@ public class BuyMenu extends YamlConfig {
 					String title = HookManager.isPlaceholderAPILoaded() ? PlaceholderAPI.setPlaceholders(player, data.getTitle()) : data.getTitle();
 					List<String> lore = HookManager.isPlaceholderAPILoaded() ? PlaceholderAPI.setPlaceholders(player, data.getLore()) : data.getLore();
 
-					ItemStack item = ItemCreator.of(data.getMaterial(), title, lore)
-							.glow(data.isGlow()).make();
+					ItemCreator item = ItemCreator.of(data.getMaterial(), title, lore)
+							.glow(data.isGlow());
 
 					if (data.getPlayerSkullName() != null) {
 						String playerSkullName = HookManager.isPlaceholderAPILoaded() ? PlaceholderAPI.setPlaceholders(player, data.getPlayerSkullName()) : data.getPlayerSkullName();
 
-						item = ItemCreator.of(data.getMaterial(), title, lore)
-								.glow(data.isGlow()).skullOwner(playerSkullName).make();
+						item.skullOwner(playerSkullName);
 					}
 
+					ItemStack compiledItem = item.make();
+
 					if (data.getCustomModelData() != -1) {
-						ItemMeta meta = item.getItemMeta();
+						ItemMeta meta = compiledItem.getItemMeta();
 
 						meta.setCustomModelData(data.getCustomModelData());
 
-						item.setItemMeta(meta);
+						compiledItem.setItemMeta(meta);
 					}
 
-					return item;
+					return compiledItem;
 				}
 
 				private ItemStack randomSpawner() {
@@ -294,7 +295,7 @@ public class BuyMenu extends YamlConfig {
 			button.title = map.getString("Title");
 			Valid.checkNotNull(button.title, "Missing 'Title' key from button: " + map);
 
-			button.lore = map.containsKey("Lore") ? map.getStringList("Lore") : Arrays.asList("");
+			button.lore = map.containsKey("Lore") ? map.getStringList("Lore") : new ArrayList<>();
 
 			SerializedMap click = map.getMap("Click");
 

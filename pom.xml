@@ -44,10 +44,6 @@
              or change to "org.mineacademy" if you downloaded our library to your disk and compiled it. -->
         <foundation.path>com.github.kangarko</foundation.path>
 
-        <rtag.path>com.github.saicone.rtag</rtag.path>
-
-        <rtag.version>1.2.0</rtag.version>
-
         <!-- DO NOT EDIT. -->
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     </properties>
@@ -93,17 +89,6 @@
             <groupId>${foundation.path}</groupId>
             <artifactId>Foundation</artifactId>
             <version>${foundation.version}</version>
-        </dependency>
-        <dependency>
-            <groupId>${rtag.path}</groupId>
-            <artifactId>rtag</artifactId>
-            <version>${rtag.version}</version>
-        </dependency>
-        <!-- Other modules -->
-        <dependency>
-            <groupId>${rtag.path}</groupId>
-            <artifactId>rtag-item</artifactId>
-            <version>${rtag.version}</version>
         </dependency>
     </dependencies>
 
@@ -151,8 +136,6 @@
                     <artifactSet>
                         <includes>
                             <include>${foundation.path}:Foundation*</include>
-                            <include>${rtag.path}:rtag</include>
-                            <include>${rtag.path}:rtag-item</include>
                         </includes>
                     </artifactSet>
                     <relocations>
@@ -160,8 +143,6 @@
                         <relocation>
                             <pattern>org.mineacademy.fo</pattern>
                             <shadedPattern>${project.groupId}.${project.artifactId}.lib</shadedPattern>
-                            <pattern>com.saicone.rtag</pattern>
-                            <shadedPattern>${project.groupId}.${project.artifactId}.lib.rtag</shadedPattern>
                         </relocation>
                     </relocations>
                 </configuration>
