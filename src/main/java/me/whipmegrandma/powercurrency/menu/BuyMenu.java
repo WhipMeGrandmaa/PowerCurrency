@@ -1,6 +1,5 @@
 package me.whipmegrandma.powercurrency.menu;
 
-import com.saicone.rtag.RtagItem;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
@@ -14,6 +13,7 @@ import org.bukkit.entity.Player;
 import org.bukkit.event.inventory.ClickType;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.BlockStateMeta;
+import org.bukkit.inventory.meta.ItemMeta;
 import org.mineacademy.fo.*;
 import org.mineacademy.fo.collection.SerializedMap;
 import org.mineacademy.fo.menu.Menu;
@@ -157,12 +157,12 @@ public class BuyMenu extends YamlConfig {
 								.glow(data.isGlow()).skullOwner(playerSkullName).make();
 					}
 
-					if (data.getNbtTag() != -1) {
-						int tag = data.getNbtTag();
+					if (data.getCustomModelData() != -1) {
+						ItemMeta meta = item.getItemMeta();
 
-						RtagItem itemTag = new RtagItem(item);
-						itemTag.set(tag, tag);
-						
+						meta.setCustomModelData(data.getCustomModelData());
+
+						item.setItemMeta(meta);
 					}
 
 					return item;
@@ -257,7 +257,7 @@ public class BuyMenu extends YamlConfig {
 		private CompMaterial material;
 		private String playerSkullName;
 		private boolean glow;
-		private int nbtTag;
+		private int customModelData;
 		private String title;
 		private List<String> lore;
 
@@ -289,7 +289,7 @@ public class BuyMenu extends YamlConfig {
 
 			button.glow = map.getBoolean("Glow", false);
 
-			button.nbtTag = map.getInteger("NBT_Tag", -1);
+			button.customModelData = map.getInteger("Custom_Model_Data", -1);
 
 			button.title = map.getString("Title");
 			Valid.checkNotNull(button.title, "Missing 'Title' key from button: " + map);

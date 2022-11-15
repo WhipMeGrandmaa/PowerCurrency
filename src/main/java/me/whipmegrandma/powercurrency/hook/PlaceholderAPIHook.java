@@ -2,7 +2,6 @@ package me.whipmegrandma.powercurrency.hook;
 
 import com.google.common.primitives.Ints;
 import lombok.Getter;
-import lombok.Setter;
 import me.clip.placeholderapi.expansion.PlaceholderExpansion;
 import me.whipmegrandma.powercurrency.manager.PowerLeaderboardManager;
 import me.whipmegrandma.powercurrency.manager.PowerManager;
@@ -10,9 +9,9 @@ import org.bukkit.entity.Player;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
-@Setter
-@Getter
 public class PlaceholderAPIHook extends PlaceholderExpansion {
+	@Getter
+	private final static Object lock = new Object();
 
 	@Override
 	public @NotNull String getIdentifier() {
@@ -66,8 +65,6 @@ public class PlaceholderAPIHook extends PlaceholderExpansion {
 			else
 				return PowerLeaderboardManager.getPower(position);
 		}
-		if ("ptopname1".equals(params))
-			return PowerLeaderboardManager.getName(1);
 
 		return null;
 	}

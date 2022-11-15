@@ -37,7 +37,10 @@ public final class PowerCurrency extends SimplePlugin {
 
 		} else
 			Common.log("Disabling support for PlaceholderAPI. Please download PlaceholderAPI here https://www.spigotmc.org/resources/placeholderapi.6245/");
-
 	}
 
+	@Override
+	public int getMetricsPluginId() {
+		return 16877;
+	}
 }
